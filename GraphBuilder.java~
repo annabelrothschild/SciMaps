@@ -44,8 +44,10 @@ abstract class GraphBuilder<T> {
         //first index is origin, second is destination
         Integer from = scan.nextInt();
         Integer to = scan.nextInt();
+        String direction = scan.nextLine();
         //add an arc between the actual vertex objects that those indexes
         graph.addArc(graph.getVertex(from), graph.getVertex(to));
+        graph.addArcDirection(direction, from, to);
       }
       scan.close();
     } catch (IOException ex){
