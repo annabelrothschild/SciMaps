@@ -8,6 +8,8 @@
 import java.util.*;
 import java.io.*;
 
+//need to make all instance variables private after testing
+
 public class AdjListsGraph<T> implements Graph<T>{
   
   private Vector<T> verticies;
@@ -16,12 +18,16 @@ public class AdjListsGraph<T> implements Graph<T>{
    */ 
   private String[][] arcDirections;
   private int arcArrayCount;
+  /*Added by Annabel 04/27 - account for weights
+   */
+  private Double[][] weights;
   
   public AdjListsGraph(){
     
     verticies = new Vector<T>();
     arcs = new Vector<LinkedList<T>>();
     arcDirections = new String[1][3];
+    weights = new Double[1][3];
     arcArrayCount ++;
     
   }
@@ -249,8 +255,13 @@ public class AdjListsGraph<T> implements Graph<T>{
   /* Added by Annabel 04/26 - account for need to resize arcDirections array
    */ 
   private void doubleArray(){
+    
+    //will need to increase size of weights array and directions array at same time because will always have
+    // same number of entries
+    
     //makes each column far larger than it needs to be - is there a better solution to this?
     String[][] biggerDirections = new String[arcDirections.length*2][3 + arcDirections.length*2];
+    Double[][] biggerWeights = new Double[weights.length*2][3 + arcDirections.length*2];
     for (int i=0; i<arcDirections.length; i++) {
       //System.out.println("i value: " + i);
       for (int j=0; j<arcDirections[i].length; j++){
@@ -259,26 +270,38 @@ public class AdjListsGraph<T> implements Graph<T>{
         //System.out.println("arcDirections @ value pair: " + arcDirections[i][j]); 
         //System.out.println("biggerDirections @ value pair: " + biggerDirections[i][j]);
         biggerDirections[i][j] = arcDirections[i][j];
+        biggerWeights[i][j] = weights[i][j];
         //System.out.println("biggerDirections: " + biggerDirections[i][j] + "  arcDirections: " + arcDirections[i][j]);
       }
     }
     arcDirections = biggerDirections;
+    weights = biggerWeights;
   }
+  
   
   /* Added by Annabel 04/26 - toString for arcDirections matrix
    */
-  public String arcDirectionsToString(){
-    String results = "";
+  public void arrayToString(){
+    //assumes weights and arcsResults will always have same size and will both be null in same places
+    String arcsResults = "";
+    String weightsResults = "";
     for (int i=0; i<arcDirections.length; i++){
       if (!(arcDirections[i]==null)){
         for (int j=0; j<arcDirections[i].length; j++){
           if (!(arcDirections[i][j] == null)){
-            results += arcDirections[i][j] + "\n";
+            arcsResults += arcDirections[i][j] + "\n";
+            weightsResults += weights[i][j] + "\n";
           }
         }
       }
     }
-    return results;
+    System.out.println("Arcs results: " + arcsResults);
+    System.out.println("Weights results: " + weightsResults);
+  }
+  /*Added by Annabel 04/27 to add weights for new added arcs to existing weights Vector (of LinkedLists)
+   */
+  public void addWeight(int x, int y, double weight){
+    weights[x][y] = weight;
   }
   
   public static void main(String[] args){
@@ -301,7 +324,7 @@ public class AdjListsGraph<T> implements Graph<T>{
                          + " final state above");
     System.out.println("Maps: " + roomxGraph);
     
-    System.out.println(roomxGraph.arcDirectionsToString());
+    roomxGraph.arrayToString();
 
 
   }

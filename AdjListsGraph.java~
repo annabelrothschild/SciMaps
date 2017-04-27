@@ -12,11 +12,17 @@ public class AdjListsGraph<T> implements Graph<T>{
   
   private Vector<T> verticies;
   private Vector<LinkedList<T>> arcs;
+  /* Added by Annabel 04/26 to account for arc directions array
+   */ 
+  private String[][] arcDirections;
+  private int arcArrayCount;
   
   public AdjListsGraph(){
     
     verticies = new Vector<T>();
     arcs = new Vector<LinkedList<T>>();
+    arcDirections = new String[1][3];
+    arcArrayCount ++;
     
   }
   /* Check if graph is undirected (if for every arc there is one going between the same 
@@ -228,6 +234,53 @@ public class AdjListsGraph<T> implements Graph<T>{
     return verticies.get(index-1);
   }
   
+  /* Added by Annabel 04/26 - account for need to create a 2-d array to hold arc directions
+   */ 
+  public void addArcDirection(String direction, int x, int y){
+    
+    if (arcArrayCount < (x*y)){
+      doubleArray();
+    }
+    
+    arcDirections[x][y] = direction;
+    
+  }
+  
+  /* Added by Annabel 04/26 - account for need to resize arcDirections array
+   */ 
+  private void doubleArray(){
+    //makes each column far larger than it needs to be - is there a better solution to this?
+    String[][] biggerDirections = new String[arcDirections.length*2][3 + arcDirections.length*2];
+    for (int i=0; i<arcDirections.length; i++) {
+      //System.out.println("i value: " + i);
+      for (int j=0; j<arcDirections[i].length; j++){
+        //System.out.println("j value: " + j);
+        //System.out.println(" (i,j) --> " + i + ", " + j);
+        //System.out.println("arcDirections @ value pair: " + arcDirections[i][j]); 
+        //System.out.println("biggerDirections @ value pair: " + biggerDirections[i][j]);
+        biggerDirections[i][j] = arcDirections[i][j];
+        //System.out.println("biggerDirections: " + biggerDirections[i][j] + "  arcDirections: " + arcDirections[i][j]);
+      }
+    }
+    arcDirections = biggerDirections;
+  }
+  
+  /* Added by Annabel 04/26 - toString for arcDirections matrix
+   */
+  public String arcDirectionsToString(){
+    String results = "";
+    for (int i=0; i<arcDirections.length; i++){
+      if (!(arcDirections[i]==null)){
+        for (int j=0; j<arcDirections[i].length; j++){
+          if (!(arcDirections[i][j] == null)){
+            results += arcDirections[i][j] + "\n";
+          }
+        }
+      }
+    }
+    return results;
+  }
+  
   public static void main(String[] args){
     
     AdjListsGraph rooms = new AdjListsGraph();
@@ -247,6 +300,9 @@ public class AdjListsGraph<T> implements Graph<T>{
     System.out.println("Building new AdjListsGraph object from .tgf file; result should match"
                          + " final state above");
     System.out.println("Maps: " + roomxGraph);
+    
+    System.out.println(roomxGraph.arcDirectionsToString());
+
 
   }
 }
