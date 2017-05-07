@@ -103,6 +103,8 @@ public class ArcInformation{
    */ 
   public Arc get(int start, int end){
     
+    //System.out.println(start + ", " + end);
+    
     if ((rows < start) || (columns < end)){
       System.out.println("You just tried to get an arc that doesn't exist.");
       return null;
@@ -164,6 +166,13 @@ public class ArcInformation{
   }
   
   public static void main(String[] args){
+    
+    Room room1 = new Room("1");
+    Room room2 = new Room("2");
+    Room room3 = new Room("3");
+    
+    ArcInformation myArcs = new ArcInformation(20,20);
+    //myArcs.addInformation(room
     
 //    ArcInformation myInfo = new ArcInformation(5,5);
 //    myInfo.addInformation(1,6,"right",.4);
