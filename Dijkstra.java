@@ -117,14 +117,10 @@ public class Dijkstra {
     roomGraph.addArc(r5, r6, "straight", 4);
     roomGraph.addArc(r6, r5, "straight", 4);
     
-    
-//    Dijkstra.computePaths(roomGraph, r8, r4);
+   
     List<Room> path = Dijkstra.computePaths(roomGraph, r1, r6);
     System.out.println("Path: " + path);
     
-//    computePaths(A); // run Dijkstra
-//    System.out.println("Distance to " + Z + ": " + Z.minDistance);
-//    List<Vertex> path = getShortestPathTo(Z);
-//    System.out.println("Path: " + path);
+
   }
 }
