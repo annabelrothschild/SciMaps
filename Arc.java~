@@ -1,0 +1,57 @@
+/* Arc.java
+ * Written By: Annabel Rothschild
+ * Modified By:
+ * Defines one Arc object (w/distance between two vertices and direction as instance variables)
+ */ 
+
+public class Arc{
+  
+  private String directions;
+  private double minutes;
+  
+  public Arc(String d, double m){
+    
+    directions = d;
+    minutes = m;
+    
+  }
+  
+  public double getMinutes(){
+    
+    return minutes;
+    
+  }
+  
+  public String getDirections(){
+    
+    return directions;
+    
+  }
+  
+  public void setMinutes(double freshMinutes){
+    
+    minutes = freshMinutes;
+    
+  }
+  
+  public void setDirections(String freshDirections){
+    
+    directions = freshDirections;
+    
+  }
+  
+  public String toString(){
+    
+    String result = "Distance in minutes: " + minutes + " with directions: " + directions;
+    return result;
+    
+  }
+  
+  public static void main(String[] args){
+    
+    //Arc myArc = new Arc("eek", 2.0);
+    //System.out.println(myArc);
+    
+  }
+  
+}
