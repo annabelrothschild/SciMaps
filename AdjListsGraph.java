@@ -29,9 +29,18 @@ public class AdjListsGraph<T>{
     
     verticies = new Vector<T>();
     //default size - can be updated
-    arcs = new ArcInformation(5, 5);
+    //arcs = new ArcInformation(5, 5);
     
   }
+  
+  /* Initialize arcs to hold space for every possible arc
+   */
+  public void initializeArcs(){
+    
+    arcs = new ArcInformation(verticies.size(), verticies.size());
+    
+  }
+  
   /* Check if graph is undirected (if for every arc there is one going between the same 
    * verticies in the opposite direction)
    * @return whether or not graph is undirected
@@ -91,17 +100,16 @@ public class AdjListsGraph<T>{
   
   //UPDATED 05/06 - our graph only has arcs so don't need to check if goes the other way
   public boolean isArc (T vertex1, T vertex2){
-    return (arcs.get(getIndex(vertex1),getIndex(vertex2)) == null);
+    return (!(arcs.get(getIndex(vertex1),getIndex(vertex2)) == null));
   }
   
   /* Add arc to graph assuming that both verticies are in the graph and that arc-to-be-added doesn't
-   * already exist in the graph. 
+   * already exist in the graph. Overrides a pre-existing arc in event of collision.
    * @return void
    */ 
-  public void addArc (T vertex1, T vertex2, String direction, double distance){
+  public void addArc (T vertex1, T vertex2, String direction, int distance){
     //check that both vertices exist and that arc is null
-    if (verticies.contains(vertex1) && verticies.contains(vertex2) && 
-        (!isArc(vertex1, vertex2))){
+    if (verticies.contains(vertex1) && verticies.contains(vertex2)){
       arcs.addInformation(getIndex(vertex1),getIndex(vertex2),direction,distance);
     }
   }
@@ -256,95 +264,15 @@ public class AdjListsGraph<T>{
     return verticies.get(index-1);
   }
   
-  /* Added by Annabel 04/26 - account for need to change direction or minutes in arcInformation
+  /* Added by Annabel 04/26 - account for need to change direction or seconds in arcInformation
    */ 
-  public void changeArcInformation(T from, T to, String directions, double minutes){
+  public void changeArcInformation(T from, T to, String directions, int seconds){
     
     arcs.get(getIndex(from), getIndex(to)).setDirections(directions);
-    arcs.get(getIndex(from), getIndex(to)).setMinutes(minutes);
+    arcs.get(getIndex(from), getIndex(to)).setSeconds(seconds);
     
   }
   
-  public static void loadTGF(String tgf_file_name, AdjListsGraph<String> g) throws FileNotFoundException {
-     
-  if (!g.isEmpty()) throw new RuntimeException("Refusing to load TGF data into non-empty graph.");
-  Scanner fileReader = new Scanner(new File(tgf_file_name));
-  // Keep a mapping from TGF vertex ID to AdjMatGraph vertex ID.
-  // This allows vertex IDs to be written out of order in TGF.
-  // It also supports non-integer vertex IDs.
-  HashMap<String,Integer> vidMap = new HashMap<String,Integer>();
-  try {
-   // Read vertices until #
-   while (fileReader.hasNext()) {
-    // Get TGF vertex ID
-    String nextToken = fileReader.next();
-    if (nextToken.equals("#")) {
-     break;
-    }
-    vidMap.put(nextToken, g.getNumVertices());
-    String label = fileReader.hasNextLine() ? fileReader.nextLine().trim() : fileReader.next();
-
-    g.addVertex(label);
-   }
-
-   // Read edges until EOF
-   while (fileReader.hasNext()) {
-    // Get src and dest
-    String src = fileReader.next();
-    String dest = fileReader.next();
-    double minutes = fileReader.nextDouble();
-    String description = fileReader.next();
-    // Discard label if any
-    if (fileReader.hasNextLine()) {
-     String label = fileReader.nextLine().trim();
-     if (!label.isEmpty()) System.out.println("Discarded arc label: \"" + label + "\"");
-    }
-     g.addArc(g.getVertex(Integer.parseInt(src)-1), g.getVertex(Integer.parseInt(dest)-1), description, minutes);
-   }
-  } catch (RuntimeException e) {
-   System.out.println("Error reading TGF");
-   throw e;
-  } finally {
-   fileReader.close();
-  }
-
-    }
-  
-  
-  /* Added by Annabel 04/26 - account for need to resize arcDirections array
-   */ 
-//  private void doubleArray(){
-//    
-//    //will need to increase size of weights array and directions array at same time because will always have
-//    // same number of entries
-//    
-//    //makes each column far larger than it needs to be - is there a better solution to this?
-//    String[][] biggerDirections = new String[arcDirections.length*2][3 + arcDirections.length*2];
-//    Double[][] biggerWeights = new Double[weights.length*2][3 + arcDirections.length*2];
-//    for (int i=0; i<arcDirections.length; i++) {
-//      //System.out.println("i value: " + i);
-//      for (int j=0; j<arcDirections[i].length; j++){
-//        //System.out.println("j value: " + j);
-//        //System.out.println(" (i,j) --> " + i + ", " + j);
-//        //System.out.println("arcDirections @ value pair: " + arcDirections[i][j]); 
-//        //System.out.println("biggerDirections @ value pair: " + biggerDirections[i][j]);
-//        biggerDirections[i][j] = arcDirections[i][j];
-//        biggerWeights[i][j] = weights[i][j];
-//        //System.out.println("biggerDirections: " + biggerDirections[i][j] + "  arcDirections: " + arcDirections[i][j]);
-//      }
-//    }
-//    arcDirections = biggerDirections;
-//    weights = biggerWeights;
-//  }
-  
-  
-
-  /*Added by Annabel 04/27 to add weights for new added arcs to existing weights Vector (of LinkedLists)
-   */
-//  public void addWeight(int x, int y, double weight){
-//    weights[x][y] = weight;
-//  }
-//  
   public static void main(String[] args){
     
     AdjListsGraph rooms = new AdjListsGraph();
@@ -356,7 +284,7 @@ public class AdjListsGraph<T>{
     
     //rooms.addArc(hello, there);
     
-    rooms.saveToTGF("Rooms");
+    //rooms.saveToTGF("Rooms");
     System.out.println("Rooms.tgf was just saved to show initial state");
     
     MapsBuilder roomx = new MapsBuilder();

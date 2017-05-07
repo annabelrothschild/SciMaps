@@ -19,10 +19,10 @@ public class ArcInformation{
   }
   
   /* Add a new arc
-   * @ params index of beginning arc, index of end arc, String directions, double for distance in minutes
+   * @ params index of beginning arc, index of end arc, String directions, integer for distance in seconds
    */ 
   //required Arc indicies - use getIndex on Arcs before trying to use resetDirections
-  public void addInformation(int from, int to, String d, double m){
+  public void addInformation(int from, int to, String d, int m){
     
     if ((rows < from) || (columns < to)){
       System.out.println("This index does not exist in the array. Please double check your indicies.");
@@ -46,17 +46,17 @@ public class ArcInformation{
       arcInfo[from][to].setDirections(d);
     }
   }
-  /* Reset distance (minutes) for a given arc
-   * @ params index of beginning arc, index of end arc, double minutes
+  /* Reset distance (seconds) for a given arc
+   * @ params index of beginning arc, index of end arc, integer seconds
    */ 
   //required Arc indicies - use getIndex on Arcs before trying to use resetMinutes
-  public void resetMinutes(int from, int to, double m){
+  public void resetMinutes(int from, int to, int m){
     
     if ((rows < from) || (columns < to)){
       System.out.println("This index does not exist in the array. Please double check your indicies.");
     }
     else{
-      arcInfo[from][to].setMinutes(m);
+      arcInfo[from][to].setSeconds(m);
     }
   }
   
@@ -126,6 +126,30 @@ public class ArcInformation{
     
   }
   
+    /* Added by Annabel 04/26 - account for need to resize arcDirections array
+   */ 
+  private void doubleArray(){
+    
+    //will need to increase size of weights array and directions array at same time because will always have
+    // same number of entries
+    
+    //makes each column far larger than it needs to be - is there a better solution to this?
+    Arc[][] biggerInfo = new Arc[rows*2][3 + columns*2];
+    rows = rows * 2;
+    columns = columns * 2;
+    for (int i=0; i<arcInfo.length; i++) {
+      //System.out.println("i value: " + i);
+      for (int j=0; j<arcInfo[i].length; j++){
+        //System.out.println("j value: " + j);
+        //System.out.println(" (i,j) --> " + i + ", " + j);
+        //System.out.println("arcDirections @ value pair: " + arcDirections[i][j]); 
+        //System.out.println("biggerDirections @ value pair: " + biggerDirections[i][j]);
+        biggerInfo[i][j] = arcInfo[i][j];
+        //System.out.println("biggerDirections: " + biggerDirections[i][j] + "  arcDirections: " + arcDirections[i][j]);
+      }
+    }
+    arcInfo = biggerInfo;
+  }
   
   public static void main(String[] args){
     
