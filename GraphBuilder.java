@@ -37,7 +37,7 @@ abstract class GraphBuilder<T> {
       //for each of the verticies (know you've gone through all verticies when you hit #)
       while (!scan.next().equals("#")){
         String line = scan.nextLine().trim(); //take out extra whitespace or it tries to create another object
-        T something = createOneThing(line); //create one vertex out of that object and add it to graph
+        Room something = (Room) createOneThing(line); //create one vertex out of that object and add it to graph
         graph.addVertex(something);
     }
       graph.initializeArcs();
