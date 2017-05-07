@@ -126,6 +126,18 @@ public class ArcInformation{
     
   }
   
+  
+  /* Set all arcs originating at a certain vertex to null
+   * @ param vertex w/arcs to be removed
+   */ 
+  public void removeFromVertex(int vertexId){
+    
+    for (int o = 0; o < arcInfo[vertexId].length ; o++){
+      arcInfo[vertexId][o] = null;
+    }
+    
+  }
+  
     /* Added by Annabel 04/26 - account for need to resize arcDirections array
    */ 
   private void doubleArray(){

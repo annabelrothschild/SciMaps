@@ -6,13 +6,22 @@
 
 public class Room{
   
-  String name;
+  private String name;
   
   /* Constructor just takes in the name of the room
    */ 
   public Room (String n){
     
     name = n;
+    
+  }
+  
+  /* Get name of room 
+   * @ return name of room
+   */ 
+  public String getName(){
+    
+    return name;
     
   }
   

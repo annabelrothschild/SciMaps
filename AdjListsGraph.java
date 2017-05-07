@@ -14,26 +14,19 @@ import java.io.*;
  * - 2D ARRAY SIZE IS HARDCODED BECAUSE WE LOAD ALL THE EDGES OURSELVES - WILL KNOW THE SIZE OF THE GRAPH WE ARE ADDING
  */ 
 
-//need to make all instance variables private after testing
-
 public class AdjListsGraph<T>{
   
-  private Vector<T> verticies;
-  /* Added by Annabel 04/26 to account for arc directions array
-   */ 
+  private Vector<Room> verticies;
   private ArcInformation arcs;
-  /*Added by Annabel 04/27 - account for weights
-   */
   
   public AdjListsGraph(){
     
-    verticies = new Vector<T>();
-    //default size - can be updated
-    //arcs = new ArcInformation(5, 5);
+    verticies = new Vector<Room>();
+    arcs = new ArcInformation(5,5);
     
   }
   
-  /* Initialize arcs to hold space for every possible arc
+  /* Initialize arcs to hold space for every possible arc - totalNumVerticies x totalNumVerticies
    */
   public void initializeArcs(){
     
@@ -43,15 +36,9 @@ public class AdjListsGraph<T>{
   
   /* Get a particular vertex given just its name
    * @ param room number
-   * @ return Room object
+   * @ return Room object or null if no Room with that name exists
    */ 
   public Room getRoom(String name){
-    
-    //Room myRoom = (Room) verticies.get(0);
-    //System.out.println("myRoom: " + myRoom);
-    //System.out.println("myRoom: " + myRoom.getName());
-    //System.out.println("testing getName: " + myRoom.name);
-    
     for (int r = 0; r < verticies.size() ; r ++){   
       Room aRoom = (Room) verticies.get(r);
       if (aRoom.getName().equals(name)){
@@ -61,33 +48,8 @@ public class AdjListsGraph<T>{
     return null;
   }
   
-  /* Check if graph is undirected (if for every arc there is one going between the same 
-   * verticies in the opposite direction)
-   * @return whether or not graph is undirected
-   */ 
-//  public boolean isUndirected(){
-//    //check each arc in the collection by going through each Arc in array
-//    for (int t = 1; t<arcs.numRows(); t++){
-//      for (int u = 1; u<arcs.numColumns(t); u++){ 
-//        System.out.println("t,u pair: " + t + ", " + u);
-//        //if one arc does not have a reciprocal arc, the entire graph is undirected
-//        //handle possibility that array does not have as many columns as it does rows
-//        try{ 
-//          if (!(arcs.get(t,u).getStartVertex() == arcs.get(u,t).getStartVertex())
-//                && (arcs.get(t,u).getEndVertex() == arcs.get(u,t).getEndVertex())){
-//            return false;
-//        }
-//        } catch (ArrayIndexOutOfBoundsException e){
-//        } //catch case that there's no arc there yet
-//        catch (NullPointerException e){
-//        }
-//      }
-//    }
-//    return true;
-//  }
-  
   /* Check if graph is empty
-   * @return whether or not graph is empty
+   * @ return whether or not graph is empty
    */ 
   public boolean isEmpty(){
     return (verticies.size() == 0);
@@ -117,92 +79,94 @@ public class AdjListsGraph<T>{
   }
   
   /* Check if an arc exists between two verticies - assumes that edge must be directed so can 
-   * only go in one direction
-   * @return whether or not an arc exists between two given verticies
+   * only go in one direction. Returns true only if an edge exists between two the given verticies
+   * in only one direction.
+   * @ return whether or not an arc exists between two given verticies
    */ 
-  
-  //UPDATED 05/06 - our graph only has arcs so don't need to check if goes the other way
   public boolean isArc (Room vertex1, Room vertex2){
-    return (!(arcs.get(getIndex(vertex1),getIndex(vertex2)) == null));
+    return (!(arcs.get(getIndex(vertex1),getIndex(vertex2)) == null) &&
+  (arcs.get(getIndex(vertex2),getIndex(vertex1)) == null));
   }
   
   /* Add arc to graph assuming that both verticies are in the graph and that arc-to-be-added doesn't
    * already exist in the graph. Overrides a pre-existing arc in event of collision.
-   * @return void
+   * @ return void
    */ 
   public void addArc (Room vertex1, Room vertex2, String direction, int distance){
-    //check that both vertices exist and that arc is null
     if (verticies.contains(vertex1) && verticies.contains(vertex2)){
       arcs.addInformation(getIndex(vertex1),getIndex(vertex2),direction,distance);
     }
   }
   
   /* Check if an edge exists between two verticies - meaning there are two reciprocal arcs
-   * @return whether or not check exists
+   * @ return whether or not check exists
    */ 
-//condensed version because all edges are arcs in our graph
   public boolean isEdge (Room vertex1, Room vertex2){
-    return isArc(vertex1, vertex2);
-//    return (!(arcs.get(getIndex(vertex1), getIndex(vertex2) == null)) || 
-//            (!(arcs.get(getIndex(vertex2), getIndex(vertex1)) == null)));
+    return (!(arcs.get(getIndex(vertex1),getIndex(vertex2)) == null));
   } 
   
-  /* Remove vertex from verticies along with removing all edges that point from, or too, that vertex
-   * @return void
+  /* Remove vertex from verticies along with removing all edges that point from, or too, that vertex. 
+   * First, remove (set to null) all arcs that start at vertex-to-be-removed. Then do the same for all
+   * arcs pointing to to-be-removed vertex. Finally, remove the vertex itself.
+   * @ return void
    */ 
   public void removeVertex (Room vertex){
-    System.out.println("Method is unimplemented");
-//    arcs.(getIndex(vertex));
-//    verticies.remove(vertex);
-//    for (int i = 0; i<arcs.size(); i++){
-//      removeArc(verticies.get(i), vertex);
-//    }
+    //set all arcs originating from that vertex to null
+    for (int i = 0; i < arcs.numRows() ; i ++ ){    
+      if (i==getIndex(vertex)){
+        arcs.removeFromVertex(getIndex(vertex));
+      }
+    for (int k = 0; k < arcs.numColumns(i); k ++){
+      if (!(arcs.get(i,k) == null)){
+        if (arcs.get(i,k).getEndVertex() == getIndex(vertex)){
+          System.out.println("wants to remove " + i + ", " + k);
+          arcs.removeArc(i,k);
+        }
+      }
+    }
+    }
+    verticies.remove(vertex);
   }
   
   /* Remove an arc by going through each arc in LinkedList corresponding to first vertex
    * and checking if it goes to the second vertex and if so remove that arc
-   * @return void
+   * @ return void
    */ 
   public void removeArc (Room vertex1, Room vertex2){
     arcs.removeArc(getIndex(vertex1),getIndex(vertex2));
-//    for (int c = 0; c<arcs.get(getIndex(vertex1)).size(); c++){
-//      if (arcs.get(getIndex(vertex1)).get(c) == vertex2){
-//        arcs.get(getIndex(vertex1)).remove(c);
-//      }
-//    }
   }
   
   /* Add a vertex, if not already in verticies, by adding it to verticies vector and creating
    * new LinkedList element in arcs
-   * @return void
+   * @ return void
    */ 
-  public void addVertex(T vertex){
+  public void addVertex(Room vertex){
     if (!verticies.contains(vertex)){
       verticies.add(vertex);
-      //arcs.add(new LinkedList<T>());
     }
   }
-  
-//  /* Add edge to graph if both verticies exist by adding reciprocal arcs as long as those arcs
-//   * don't already exist - check individually to add one arc if other already exists
-//   * @return void
-//   */ 
-//  public void addEdge (T vertex1, T vertex2, String direction, ){
-//    addArc(vertex1, vertex2, distance, );
-//    addArc(vertex2, vertex1);
-//  }
   
   /* Remove edge by removing both of the reciprocal arcs assuming and edge exists between the two verticies
    * @return void
    */ 
   public void removeEdge (Room vertex1, Room vertex2){
     arcs.removeArc(getIndex(vertex1), getIndex(vertex2));
-//    if (isEdge(vertex1, vertex2)){
-//      arcs.get(getIndex(vertex1)).remove(vertex2);
-//      arcs.get(getIndex(vertex2)).remove(vertex1);
-//    }
   }
   
+  /* Check for successors to given vertex by returning corresponding LinkedList of arcs that begin at given
+   * Room. Assumes a vertex can be its own successor because of slings.
+   * @return LinkedList<T> of sucessors
+   */ 
+  public LinkedList<Arc> getSuccessors(Room vertex){
+    LinkedList<Arc> kids = new LinkedList<Arc>();
+    //check each member of the header row - 
+    for (int k = 0; k < arcs.numColumns(getIndex(vertex)); k++){
+      if (!(arcs.get(getIndex(vertex),k) == null)){
+        kids.add(arcs.get(getIndex(vertex),k));
+      }
+    }
+    return kids;
+  }
   /* Check for successors to given vertex by returning corresponding LinkedList of rooms with an arc from
    * the given vertex. Assumes a vertex can be its own successor because of slings.
    * @return LinkedList<T> of sucessors
@@ -212,17 +176,14 @@ public class AdjListsGraph<T>{
     //check each member of the header row - 
     for (int k = 0; k < arcs.numColumns(getIndex(vertex)); k++){
       if (!(arcs.get(getIndex(vertex),k) == null)){
-        //now adding the ending vertex
         Room oneChild = (Room) verticies.get(arcs.get(getIndex(vertex),k).getEndVertex());
         kids.add(oneChild);
-        //currently adding just the arc, want to add room itself
-        //kids.add(arcs.get(getIndex(vertex),k));
       }
     }
     return kids;
   }
-    /* Check for parent rooms to given vertex by returning corresponding LinkedList of rooms with an arc from
-     * the given vertex. Assumes a vertex can be its own successor because of slings.
+  /* Check for parent rooms to given vertex by returning corresponding LinkedList of rooms with an arc from
+   * the given vertex. Assumes a vertex can be its own successor because of slings.
    * @return LinkedList<T> of sucessors
    */ 
   public LinkedList<Room> getParentRooms(Room vertex){
@@ -234,8 +195,6 @@ public class AdjListsGraph<T>{
           //if the end vertex is the same as the one we want
           if (arcs.get(k,j).getEndVertex() == getIndex(vertex)){
             parents.add((Room)verticies.get(k));
-            //currently adding arc, want to add room itself
-            //preds.add(arcs.get(k,j));
           }
         }
       }
@@ -249,10 +208,12 @@ public class AdjListsGraph<T>{
    */ 
   public LinkedList<Arc> getPredecessors(Room vertex){ //can do w/o nested for loop?
     LinkedList<Arc> preds = new LinkedList<Arc>();
-    for (int k = 0; k < arcs.numRows(); k++){
-      for (int j = 0; j < arcs.numColumns(getIndex(vertex)); j++){
-        if (!(arcs.get(k,j).getEndVertex() == getIndex(vertex))){
+    for (int k = 1; k < arcs.numRows(); k++){
+      for (int j = 1; j < arcs.numColumns(getIndex(vertex)); j++){
+        if (!(arcs.get(k,j) == null)){
+        if (arcs.get(k,j).getEndVertex() == getIndex(vertex)){
           preds.add(arcs.get(k,j));
+        }
         }
       }
     }
@@ -293,21 +254,21 @@ public class AdjListsGraph<T>{
   }
   /* Additional Helper Function:
    * Get the index of a given vertex to use in arcs 
-   * @return index of given vertex
+   * @ return index of given vertex
    */ 
   public int getIndex(Room vertex){
     return verticies.indexOf(vertex);
   }
   
   /* Format AdjListsGraph objects for printing
-   * @return nicely formatted String of AdjListsGraph object
+   * @ return nicely formatted String of AdjListsGraph object
    */ 
   public String toString(){
     String result = verticies.toString() + "\n" + arcs.toString();
     return result;
   }
   /* Access a particular vertex based on its index number
-   * @return that vertex
+   * @ return that vertex
    */ 
   public Room getVertex(int index){
     return (Room) verticies.get(index-1);
@@ -333,7 +294,7 @@ public class AdjListsGraph<T>{
     
     //rooms.addArc(hello, there);
     
-    //rooms.saveToTGF("Rooms");
+    //rooms.saveToTGF("testSaveToTGF");
     System.out.println("Rooms.tgf was just saved to show initial state");
     
     MapsBuilder roomx = new MapsBuilder();
@@ -346,11 +307,15 @@ public class AdjListsGraph<T>{
     
     //System.out.println("isUndirected: " + roomxGraph.isUndirected());
     //System.out.println("num arcs: " + roomxGraph.getNumArcs());
-    //System.out.println("isArc: " + roomxGraph.isArc(roomxGraph.getRoom("160A"), roomxGraph.getRoom("160B")));
+    System.out.println("isEdge: " + roomxGraph.isEdge(roomxGraph.getRoom("160A"), roomxGraph.getRoom("160B")));
     roomxGraph.addArc(roomxGraph.getRoom("01"), roomxGraph.getRoom("210"), "leave elevator", 45);
     //System.out.println("isArc: " + roomxGraph.isArc(roomxGraph.getRoom("01"), roomxGraph.getRoom("210")));
-    System.out.println("getSuccessors: " + roomxGraph.getChildRooms(roomxGraph.getRoom("170")));
-    System.out.println("getParents: " + roomxGraph.getParentRooms(roomxGraph.getRoom("170")));
+    //System.out.println("getKids: " + roomxGraph.getChildRooms(roomxGraph.getRoom("170")));
+//    System.out.println("getParents: " + roomxGraph.getParentRooms(roomxGraph.getRoom("170")));
+//    System.out.println("getSuccessors: " + roomxGraph.getSuccessors(roomxGraph.getRoom("170")));
+//    System.out.println("getPredecessors: " + roomxGraph.getPredecessors(roomxGraph.getRoom("170")));
+    roomxGraph.removeVertex(roomxGraph.getRoom("190"));
+    System.out.println("after removing 01: " + roomxGraph);
 
 
   }
