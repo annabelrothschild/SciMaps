@@ -41,27 +41,50 @@ public class AdjListsGraph<T>{
     
   }
   
+  /* Get a particular vertex given just its name
+   * @ param room number
+   * @ return Room object
+   */ 
+  public Room getRoom(String name){
+    
+    //Room myRoom = (Room) verticies.get(0);
+    //System.out.println("myRoom: " + myRoom);
+    //System.out.println("myRoom: " + myRoom.getName());
+    //System.out.println("testing getName: " + myRoom.name);
+    
+    for (int r = 0; r < verticies.size() ; r ++){   
+      Room aRoom = (Room) verticies.get(r);
+      if (aRoom.getName().equals(name)){
+        return aRoom;
+      }
+    }
+    return null;
+  }
+  
   /* Check if graph is undirected (if for every arc there is one going between the same 
    * verticies in the opposite direction)
    * @return whether or not graph is undirected
    */ 
-  public boolean isUndirected(){
-    //check each arc in the collection by going through each Arc in array
-    for (int t = 0; t<arcs.numRows(); t++){
-      for (int u = 0; u<arcs.numColumns(t); u++){ 
-        //if one arc does not have a reciprocal arc, the entire graph is undirected
-        //handle possibility that array does not have as many columns as it does rows
-        try{ 
-          if (!(arcs.get(t,u).getStartVertex() == arcs.get(u,t).getStartVertex())
-                && (arcs.get(t,u).getEndVertex() == arcs.get(u,t).getEndVertex())){
-            return false;
-        }
-        } catch (ArrayIndexOutOfBoundsException e){
-        }
-      }
-    }
-    return true;
-  }
+//  public boolean isUndirected(){
+//    //check each arc in the collection by going through each Arc in array
+//    for (int t = 1; t<arcs.numRows(); t++){
+//      for (int u = 1; u<arcs.numColumns(t); u++){ 
+//        System.out.println("t,u pair: " + t + ", " + u);
+//        //if one arc does not have a reciprocal arc, the entire graph is undirected
+//        //handle possibility that array does not have as many columns as it does rows
+//        try{ 
+//          if (!(arcs.get(t,u).getStartVertex() == arcs.get(u,t).getStartVertex())
+//                && (arcs.get(t,u).getEndVertex() == arcs.get(u,t).getEndVertex())){
+//            return false;
+//        }
+//        } catch (ArrayIndexOutOfBoundsException e){
+//        } //catch case that there's no arc there yet
+//        catch (NullPointerException e){
+//        }
+//      }
+//    }
+//    return true;
+//  }
   
   /* Check if graph is empty
    * @return whether or not graph is empty
@@ -99,7 +122,7 @@ public class AdjListsGraph<T>{
    */ 
   
   //UPDATED 05/06 - our graph only has arcs so don't need to check if goes the other way
-  public boolean isArc (T vertex1, T vertex2){
+  public boolean isArc (Room vertex1, Room vertex2){
     return (!(arcs.get(getIndex(vertex1),getIndex(vertex2)) == null));
   }
   
@@ -107,7 +130,7 @@ public class AdjListsGraph<T>{
    * already exist in the graph. Overrides a pre-existing arc in event of collision.
    * @return void
    */ 
-  public void addArc (T vertex1, T vertex2, String direction, int distance){
+  public void addArc (Room vertex1, Room vertex2, String direction, int distance){
     //check that both vertices exist and that arc is null
     if (verticies.contains(vertex1) && verticies.contains(vertex2)){
       arcs.addInformation(getIndex(vertex1),getIndex(vertex2),direction,distance);
@@ -118,7 +141,7 @@ public class AdjListsGraph<T>{
    * @return whether or not check exists
    */ 
 //condensed version because all edges are arcs in our graph
-  public boolean isEdge (T vertex1, T vertex2){
+  public boolean isEdge (Room vertex1, Room vertex2){
     return isArc(vertex1, vertex2);
 //    return (!(arcs.get(getIndex(vertex1), getIndex(vertex2) == null)) || 
 //            (!(arcs.get(getIndex(vertex2), getIndex(vertex1)) == null)));
@@ -127,7 +150,7 @@ public class AdjListsGraph<T>{
   /* Remove vertex from verticies along with removing all edges that point from, or too, that vertex
    * @return void
    */ 
-  public void removeVertex (T vertex){
+  public void removeVertex (Room vertex){
     System.out.println("Method is unimplemented");
 //    arcs.(getIndex(vertex));
 //    verticies.remove(vertex);
@@ -140,7 +163,7 @@ public class AdjListsGraph<T>{
    * and checking if it goes to the second vertex and if so remove that arc
    * @return void
    */ 
-  public void removeArc (T vertex1, T vertex2){
+  public void removeArc (Room vertex1, Room vertex2){
     arcs.removeArc(getIndex(vertex1),getIndex(vertex2));
 //    for (int c = 0; c<arcs.get(getIndex(vertex1)).size(); c++){
 //      if (arcs.get(getIndex(vertex1)).get(c) == vertex2){
@@ -172,7 +195,7 @@ public class AdjListsGraph<T>{
   /* Remove edge by removing both of the reciprocal arcs assuming and edge exists between the two verticies
    * @return void
    */ 
-  public void removeEdge (T vertex1, T vertex2){
+  public void removeEdge (Room vertex1, Room vertex2){
     arcs.removeArc(getIndex(vertex1), getIndex(vertex2));
 //    if (isEdge(vertex1, vertex2)){
 //      arcs.get(getIndex(vertex1)).remove(vertex2);
@@ -184,7 +207,7 @@ public class AdjListsGraph<T>{
    * given vertex. Assumes a vertex can be its own successor because of slings.
    * @return LinkedList<T> of sucessors
    */ 
-  public LinkedList<Arc> getSuccessors(T vertex){
+  public LinkedList<Arc> getSuccessors(Room vertex){
     LinkedList<Arc> kids = new LinkedList<Arc>();
     for (int k = 0; k < arcs.numColumns(getIndex(vertex)); k++){
       if (!(arcs.get(getIndex(vertex),k) == null)){
@@ -198,7 +221,7 @@ public class AdjListsGraph<T>{
    * points to given vertex to new LinkedList of predecessors.
    * @return LinkedList<T> of predecessors
    */ 
-  public LinkedList<Arc> getPredecessors(T vertex){ //can do w/o nested for loop?
+  public LinkedList<Arc> getPredecessors(Room vertex){ //can do w/o nested for loop?
     LinkedList<Arc> preds = new LinkedList<Arc>();
     for (int k = 0; k < arcs.numRows(); k++){
       for (int j = 0; j < arcs.numColumns(getIndex(vertex)); j++){
@@ -246,7 +269,7 @@ public class AdjListsGraph<T>{
    * Get the index of a given vertex to use in arcs 
    * @return index of given vertex
    */ 
-  public int getIndex(T vertex){
+  public int getIndex(Room vertex){
     return verticies.indexOf(vertex);
   }
   
@@ -260,13 +283,13 @@ public class AdjListsGraph<T>{
   /* Access a particular vertex based on its index number
    * @return that vertex
    */ 
-  public T getVertex(int index){
-    return verticies.get(index-1);
+  public Room getVertex(int index){
+    return (Room) verticies.get(index-1);
   }
   
   /* Added by Annabel 04/26 - account for need to change direction or seconds in arcInformation
    */ 
-  public void changeArcInformation(T from, T to, String directions, int seconds){
+  public void changeArcInformation(Room from, Room to, String directions, int seconds){
     
     arcs.get(getIndex(from), getIndex(to)).setDirections(directions);
     arcs.get(getIndex(from), getIndex(to)).setSeconds(seconds);
@@ -277,10 +300,10 @@ public class AdjListsGraph<T>{
     
     AdjListsGraph rooms = new AdjListsGraph();
     
-    Room hello = new Room("160b");
-    Room there = new Room("170b");
-    rooms.addVertex(hello);
-    rooms.addVertex(there);
+    //Room hello = new Room("160b");
+    //Room there = new Room("170b");
+    //rooms.addVertex(hello);
+    //rooms.addVertex(there);
     
     //rooms.addArc(hello, there);
     
@@ -291,9 +314,15 @@ public class AdjListsGraph<T>{
     AdjListsGraph roomxGraph = roomx.build("Room.tgf");
     System.out.println("Building new AdjListsGraph object from .tgf file; result should match"
                          + " final state above");
-    System.out.println("Maps: " + roomxGraph);
+    //System.out.println("Maps: " + roomxGraph);
     
     //roomxGraph.arrayToString();
+    
+    //System.out.println("isUndirected: " + roomxGraph.isUndirected());
+    //System.out.println("num arcs: " + roomxGraph.getNumArcs());
+    //System.out.println("isArc: " + roomxGraph.isArc(roomxGraph.getRoom("160A"), roomxGraph.getRoom("160B")));
+    roomxGraph.addArc(roomxGraph.getRoom("01"), roomxGraph.getRoom("210"), "leave elevator", 45);
+    System.out.println("isArc: " + roomxGraph.isArc(roomxGraph.getRoom("01"), roomxGraph.getRoom("210")));
 
 
   }
