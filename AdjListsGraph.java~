@@ -8,20 +8,30 @@
 import java.util.*;
 import java.io.*;
 
-public class AdjListsGraph<T> implements Graph<T>{
+/* TOP OF FILE NOTES:
+ * - NO LONGER IMPLEMENTS GRAPH.JAVA BECAUSE WE HAVE SO MANY SPECIFICS
+ * - NO ADDEDGE: NEED TO ADD SINGULAR ARCS BECAUSE EACH ARC HAS UNIQUE INFORMATION - DIRECTIONS
+ * - 2D ARRAY SIZE IS HARDCODED BECAUSE WE LOAD ALL THE EDGES OURSELVES - WILL KNOW THE SIZE OF THE GRAPH WE ARE ADDING
+ */ 
+
+//need to make all instance variables private after testing
+
+public class AdjListsGraph<T>{
   
   private Vector<T> verticies;
   private Vector<LinkedList<T>> arcs;
   /* Added by Annabel 04/26 to account for arc directions array
    */ 
-  private String[][] arcDirections;
+  private Arc[][] arcInformation;
   private int arcArrayCount;
+  /*Added by Annabel 04/27 - account for weights
+   */
   
   public AdjListsGraph(){
     
     verticies = new Vector<T>();
     arcs = new Vector<LinkedList<T>>();
-    arcDirections = new String[1][3];
+    arcInformation = new Arc[1][3];
     arcArrayCount ++;
     
   }
@@ -80,9 +90,10 @@ public class AdjListsGraph<T> implements Graph<T>{
    * already exist in the graph. 
    * @return void
    */ 
-  public void addArc (T vertex1, T vertex2){
+  public void addArc (T vertex1, T vertex2, String direction, double distance){
     if (verticies.contains(vertex1) && verticies.contains(vertex2) && !arcs.get(getIndex(vertex1)).contains(vertex2)){
       arcs.get(getIndex(vertex1)).add(vertex2);
+      arcInformation[getIndex(vertex1)][getIndex(vertex2)] = new Arc(direction, distance);
     }
   }
   
@@ -127,14 +138,14 @@ public class AdjListsGraph<T> implements Graph<T>{
     }
   }
   
-  /* Add edge to graph if both verticies exist by adding reciprocal arcs as long as those arcs
-   * don't already exist - check individually to add one arc if other already exists
-   * @return void
-   */ 
-  public void addEdge (T vertex1, T vertex2){
-    addArc(vertex1, vertex2);
-    addArc(vertex2, vertex1);
-  }
+//  /* Add edge to graph if both verticies exist by adding reciprocal arcs as long as those arcs
+//   * don't already exist - check individually to add one arc if other already exists
+//   * @return void
+//   */ 
+//  public void addEdge (T vertex1, T vertex2, String direction, ){
+//    addArc(vertex1, vertex2, distance, );
+//    addArc(vertex2, vertex1);
+//  }
   
   /* Remove edge by removing both of the reciprocal arcs assuming and edge exists between the two verticies
    * @return void
@@ -234,51 +245,48 @@ public class AdjListsGraph<T> implements Graph<T>{
     return verticies.get(index-1);
   }
   
-  /* Added by Annabel 04/26 - account for need to create a 2-d array to hold arc directions
+  /* Added by Annabel 04/26 - account for need to change direction or minutes in arcInformation
    */ 
-  public void addArcDirection(String direction, int x, int y){
+  public void changeArcInformation(T from, T to, String directions, double minutes){
     
-    if (arcArrayCount < (x*y)){
-      doubleArray();
-    }
-    
-    arcDirections[x][y] = direction;
+    arcInformation[getIndex(from)][getIndex(to)].setDirections(directions);
+    arcInformation[getIndex(from)][getIndex(to)].setMinutes(minutes);
     
   }
+  
   
   /* Added by Annabel 04/26 - account for need to resize arcDirections array
    */ 
-  private void doubleArray(){
-    //makes each column far larger than it needs to be - is there a better solution to this?
-    String[][] biggerDirections = new String[arcDirections.length*2][3 + arcDirections.length*2];
-    for (int i=0; i<arcDirections.length; i++) {
-      //System.out.println("i value: " + i);
-      for (int j=0; j<arcDirections[i].length; j++){
-        //System.out.println("j value: " + j);
-        //System.out.println(" (i,j) --> " + i + ", " + j);
-        //System.out.println("arcDirections @ value pair: " + arcDirections[i][j]); 
-        //System.out.println("biggerDirections @ value pair: " + biggerDirections[i][j]);
-        biggerDirections[i][j] = arcDirections[i][j];
-        //System.out.println("biggerDirections: " + biggerDirections[i][j] + "  arcDirections: " + arcDirections[i][j]);
-      }
-    }
-    arcDirections = biggerDirections;
-  }
+//  private void doubleArray(){
+//    
+//    //will need to increase size of weights array and directions array at same time because will always have
+//    // same number of entries
+//    
+//    //makes each column far larger than it needs to be - is there a better solution to this?
+//    String[][] biggerDirections = new String[arcDirections.length*2][3 + arcDirections.length*2];
+//    Double[][] biggerWeights = new Double[weights.length*2][3 + arcDirections.length*2];
+//    for (int i=0; i<arcDirections.length; i++) {
+//      //System.out.println("i value: " + i);
+//      for (int j=0; j<arcDirections[i].length; j++){
+//        //System.out.println("j value: " + j);
+//        //System.out.println(" (i,j) --> " + i + ", " + j);
+//        //System.out.println("arcDirections @ value pair: " + arcDirections[i][j]); 
+//        //System.out.println("biggerDirections @ value pair: " + biggerDirections[i][j]);
+//        biggerDirections[i][j] = arcDirections[i][j];
+//        biggerWeights[i][j] = weights[i][j];
+//        //System.out.println("biggerDirections: " + biggerDirections[i][j] + "  arcDirections: " + arcDirections[i][j]);
+//      }
+//    }
+//    arcDirections = biggerDirections;
+//    weights = biggerWeights;
+//  }
   
-  /* Added by Annabel 04/26 - toString for arcDirections matrix
+  
+
+  /*Added by Annabel 04/27 to add weights for new added arcs to existing weights Vector (of LinkedLists)
    */
-  public String arcDirectionsToString(){
-    String results = "";
-    for (int i=0; i<arcDirections.length; i++){
-      if (!(arcDirections[i]==null)){
-        for (int j=0; j<arcDirections[i].length; j++){
-          if (!(arcDirections[i][j] == null)){
-            results += arcDirections[i][j] + "\n";
-          }
-        }
-      }
-    }
-    return results;
+  public void addWeight(int x, int y, double weight){
+    weights[x][y] = weight;
   }
   
   public static void main(String[] args){
@@ -301,7 +309,7 @@ public class AdjListsGraph<T> implements Graph<T>{
                          + " final state above");
     System.out.println("Maps: " + roomxGraph);
     
-    System.out.println(roomxGraph.arcDirectionsToString());
+    roomxGraph.arrayToString();
 
 
   }

@@ -1,0 +1,64 @@
+public class ArcInformation{
+  
+  private Arc[][] arcInfo;
+  private int rows;
+  private int columns;
+  
+  public ArcInformation(int xDirection, int yDirection){
+    
+    arcInfo = new Arc[xDirection][yDirection];
+    rows = xDirection;
+    columns = yDirection;
+    
+  }
+  
+  //required Arc indicies - use getIndex on Arcs before trying to use resetDirections
+  public void addInformation(int from, int to, String d, double m){
+    
+    if ((xDirection < from) || (yDirection < columns)){
+      System.out.println("This index does not exist in the array. Please double check your indicies.");
+    }
+    
+    else{
+      arcInfo[from][to] = new Arc(d, m);
+    }
+    
+  }
+  
+  //required Arc indicies - use getIndex on Arcs before trying to use resetDirections
+  public void resetDirection(int from, int to, String d){
+    
+    if ((xDirection < from) || (yDirection < columns)){
+      System.out.println("This index does not exist in the array. Please double check your indicies.");
+    }
+    else{
+      arcInfo[from][to].setDirections(d);
+    }
+  }
+  
+  //required Arc indicies - use getIndex on Arcs before trying to use resetMinutes
+  public void resetMinutes(int from, int to, double m){
+    
+    if ((xDirection < from) || (yDirection < columns)){
+      System.out.println("This index does not exist in the array. Please double check your indicies.");
+    }
+    else{
+      arcInfo[from][to].setMinutes(m);
+    }
+  }
+  
+  public void toString(){
+    //assumes weights and arcsResults will always have same size and will both be null in same places
+    String arcResults; = "";
+    for (int i=0; i<arcInfo.length; i++){
+      if (!(arcInfo[i]==null)){
+        for (int j=0; j<arcInfo[i].length; j++){
+          if (!(arcInfo[i][j] == null)){
+            arcsResults += arcInfo[i][j] + "\n";
+          }
+        }
+      }
+    }
+    return arcResults;
+  }
+}
