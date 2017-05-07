@@ -271,7 +271,7 @@ public class AdjListsGraph<T>{
    * @ return that vertex
    */ 
   public Room getVertex(int index){
-    return (Room) verticies.get(index-1);
+    return (Room) verticies.get(index);
   }
   
   /* Added by Annabel 04/26 - account for need to change direction or seconds in arcInformation
