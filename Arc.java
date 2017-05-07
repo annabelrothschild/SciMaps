@@ -8,15 +8,15 @@
 public class Arc{
   
   private String directions;
-  private double minutes;
+  private int seconds;
   private int startVertex;
   private int endVertex;
   
   //assign instance variables
-  public Arc(int f, int t, String d, double m){
+  public Arc(int f, int t, String d, int s){
     
     directions = d;
-    minutes = m;
+    seconds = s;
     startVertex = f;
     endVertex = t;
     
@@ -24,9 +24,9 @@ public class Arc{
   
   /* @ return minutes between endpoints
    */ 
-  public double getMinutes(){
+  public int getSeconds(){
     
-    return minutes;
+    return seconds;
     
   }
   
@@ -40,9 +40,9 @@ public class Arc{
   
   /* Reset the minutes required in travel time
    */ 
-  public void setMinutes(double freshMinutes){
+  public void setSeconds(int freshSeconds){
     
-    minutes = freshMinutes;
+    seconds = freshSeconds;
     
   }
   
@@ -58,7 +58,7 @@ public class Arc{
    */ 
   public String toString(){
     
-    String result = "Distance in minutes: " + minutes + " with directions: " + directions;
+    String result = "Distance in seconds: " + seconds + " with directions: " + directions;
     return result;
     
   }

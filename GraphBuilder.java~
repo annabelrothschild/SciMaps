@@ -41,13 +41,16 @@ abstract class GraphBuilder<T> {
         graph.addVertex(something);
     }
       while (scan.hasNext()){
+        System.out.println("got here");
         //first index is origin, second is destination
         Integer from = scan.nextInt();
         Integer to = scan.nextInt();
-        String direction = scan.nextLine();
+        Double weight = scan.nextDouble();
+        String direction = scan.nextLine().trim();
         //add an arc between the actual vertex objects that those indexes
         graph.addArc(graph.getVertex(from), graph.getVertex(to));
         graph.addArcDirection(direction, from, to);
+        graph.addWeight(from, to, weight);
       }
       scan.close();
     } catch (IOException ex){

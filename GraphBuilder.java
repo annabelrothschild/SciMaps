@@ -30,27 +30,25 @@ abstract class GraphBuilder<T> {
    * */
   public AdjListsGraph<T> build (String fileName) {
     AdjListsGraph<T> graph = new AdjListsGraph<T>();
+    int arcCount = 0;
  
     try{
       Scanner scan = new Scanner(new File(fileName));
       //for each of the verticies (know you've gone through all verticies when you hit #)
       while (!scan.next().equals("#")){
         String line = scan.nextLine().trim(); //take out extra whitespace or it tries to create another object
-        System.out.println("LINE" + line);
         T something = createOneThing(line); //create one vertex out of that object and add it to graph
         graph.addVertex(something);
     }
+      graph.initializeArcs();
       while (scan.hasNext()){
-        System.out.println("got here");
         //first index is origin, second is destination
         Integer from = scan.nextInt();
         Integer to = scan.nextInt();
-        Double weight = scan.nextDouble();
+        int weight = scan.nextInt(); 
         String direction = scan.nextLine().trim();
         //add an arc between the actual vertex objects that those indexes
-        graph.addArc(graph.getVertex(from), graph.getVertex(to));
-        graph.addArcDirection(direction, from, to);
-        graph.addWeight(from, to, weight);
+        graph.addArc(graph.getVertex(from), graph.getVertex(to), direction, weight);
       }
       scan.close();
     } catch (IOException ex){

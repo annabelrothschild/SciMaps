@@ -6,10 +6,10 @@
 6 190
 #
 1 2 5 left
-2 1 1.2 right 
+2 1 2 right 
 2 3 45 straight 
 3 2 2 left
-3 4 .0 right
+3 4 0 right
 4 5 0 straight 
 5 6 9 left 
 6 5 11 right 
