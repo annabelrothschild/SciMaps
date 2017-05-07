@@ -203,18 +203,44 @@ public class AdjListsGraph<T>{
 //    }
   }
   
-  /* Check for successors to given vertex by returning corresponding LinkedList of arcs starting at 
-   * given vertex. Assumes a vertex can be its own successor because of slings.
+  /* Check for successors to given vertex by returning corresponding LinkedList of rooms with an arc from
+   * the given vertex. Assumes a vertex can be its own successor because of slings.
    * @return LinkedList<T> of sucessors
    */ 
-  public LinkedList<Arc> getSuccessors(Room vertex){
-    LinkedList<Arc> kids = new LinkedList<Arc>();
+  public LinkedList<Room> getChildRooms(Room vertex){
+    LinkedList<Room> kids = new LinkedList<Room>();
+    //check each member of the header row - 
     for (int k = 0; k < arcs.numColumns(getIndex(vertex)); k++){
       if (!(arcs.get(getIndex(vertex),k) == null)){
-        kids.add(arcs.get(getIndex(vertex),k));
+        //now adding the ending vertex
+        Room oneChild = (Room) verticies.get(arcs.get(getIndex(vertex),k).getEndVertex());
+        kids.add(oneChild);
+        //currently adding just the arc, want to add room itself
+        //kids.add(arcs.get(getIndex(vertex),k));
       }
     }
     return kids;
+  }
+    /* Check for parent rooms to given vertex by returning corresponding LinkedList of rooms with an arc from
+     * the given vertex. Assumes a vertex can be its own successor because of slings.
+   * @return LinkedList<T> of sucessors
+   */ 
+  public LinkedList<Room> getParentRooms(Room vertex){
+    LinkedList<Room> parents = new LinkedList<Room>();
+    //check each member of the header row - 
+    for (int k = 0; k < arcs.numRows(); k++){
+      for (int j = 0; j < arcs.numColumns(getIndex(vertex)); j++){
+        if (!(arcs.get(k,j) == null)){ //if there is an arc
+          //if the end vertex is the same as the one we want
+          if (arcs.get(k,j).getEndVertex() == getIndex(vertex)){
+            parents.add((Room)verticies.get(k));
+            //currently adding arc, want to add room itself
+            //preds.add(arcs.get(k,j));
+          }
+        }
+      }
+    }
+    return parents;
   }
   
   /* Check for predecessors to given vertex by checking all LinkedLists in arcs to add any arc that
@@ -322,7 +348,9 @@ public class AdjListsGraph<T>{
     //System.out.println("num arcs: " + roomxGraph.getNumArcs());
     //System.out.println("isArc: " + roomxGraph.isArc(roomxGraph.getRoom("160A"), roomxGraph.getRoom("160B")));
     roomxGraph.addArc(roomxGraph.getRoom("01"), roomxGraph.getRoom("210"), "leave elevator", 45);
-    System.out.println("isArc: " + roomxGraph.isArc(roomxGraph.getRoom("01"), roomxGraph.getRoom("210")));
+    //System.out.println("isArc: " + roomxGraph.isArc(roomxGraph.getRoom("01"), roomxGraph.getRoom("210")));
+    System.out.println("getSuccessors: " + roomxGraph.getChildRooms(roomxGraph.getRoom("170")));
+    System.out.println("getParents: " + roomxGraph.getParentRooms(roomxGraph.getRoom("170")));
 
 
   }
