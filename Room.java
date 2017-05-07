@@ -4,9 +4,11 @@
  * Modified by:
  */
 
-public class Room{
+public class Room implements Comparable<Room> {
   
-  private String name;
+  String name;
+  public double minDistance = Double.POSITIVE_INFINITY; //MEHA ADDED
+  public Room previous; //MEHA ADDED
   
   /* Constructor just takes in the name of the room
    */ 
@@ -16,13 +18,11 @@ public class Room{
     
   }
   
-  /* Get name of room 
+  /* Get name of room
    * @ return name of room
-   */ 
-  public String getName(){
-    
-    return name;
-    
+   */
+  public String getName() {
+    return name; 
   }
   
   /* Print room name nicely
@@ -30,9 +30,15 @@ public class Room{
    */ 
   public String toString(){
     
-    String roomInfo = "Room: " + name;
+//    String roomInfo = "Room: " + name; //MEHA MODIFY
+    String roomInfo = name;
     return roomInfo;
   }
+  
+  public int compareTo(Room other)
+    {
+        return Double.compare(minDistance, other.minDistance);
+    }
   
   public static void main(String[] args){
     
