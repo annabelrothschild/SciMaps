@@ -7,8 +7,8 @@
 public class Room implements Comparable<Room> {
   
   String name;
-  public double minDistance = Double.POSITIVE_INFINITY; //MEHA ADDED
-  public Room previous; //MEHA ADDED
+  public double minDistance = Double.POSITIVE_INFINITY; 
+  public Room previous; 
   
   /* Constructor just takes in the name of the room
    */ 
