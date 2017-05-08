@@ -31,16 +31,23 @@ public class Room implements Comparable<Room> {
    */ 
   public String toString(){
     
-//    String roomInfo = "Room: " + name; //MEHA MODIFY
+    //String roomInfo = "Room: " + name;
+    
+    //Modified by Meha 5/7 for cleaner path translation Dijkstra-->CalculateDirections
     String roomInfo = name;
     return roomInfo;
   }
   
+  /* Compares two Room objects by their minDistances
+   * Added by Meha 5/7 to compare paths for use in Dijkstra.java
+   * @ return an integer: 1 if greater than, 0 if equal, -1 if less than
+   */ 
   public int compareTo(Room other)
     {
         return Double.compare(minDistance, other.minDistance);
     }
   
+  /* Main method for testing */ 
   public static void main(String[] args){
     
     //Room myRoom = new Room("160A");
