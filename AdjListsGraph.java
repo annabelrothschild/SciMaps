@@ -319,7 +319,7 @@ public class AdjListsGraph<T>{
     //MapsBuilder roomx = new MapsBuilder();
     //AdjListsGraph roomxGraph = roomx.build("allrooms.tgf");
     //System.out.println("Building new AdjListsGraph object from .tgf file; result should match"
-                         + " final state above");
+                         //+ " final state above");
     //System.out.println("arc: " + roomxGraph.getArc(roomxGraph.getRoom("S127"),roomxGraph.getRoom("E135")));
     //System.out.println("isArc: " + roomxGraph.isEdge(roomxGraph.getRoom("S127"),roomxGraph.getRoom("E135")));
     //System.out.println("Maps: " + roomxGraph);
