@@ -1,8 +1,7 @@
 /* AdjListsGraph.java    
  * Written By: Annabel Rothschild
  * Modified By:
- * Part of SciMaps
- * Written Originally for: Pset07 task1 - Graph with Adjacency List Implementation
+ * Part of SciMaps - Creates main graph to be used by Dijkstra's
  */
 
 import java.util.*;
@@ -10,8 +9,7 @@ import java.io.*;
 
 /* TOP OF FILE NOTES:
  * - NO LONGER IMPLEMENTS GRAPH.JAVA BECAUSE WE HAVE SO MANY SPECIFICS
- * - NO ADDEDGE: NEED TO ADD SINGULAR ARCS BECAUSE EACH ARC HAS UNIQUE INFORMATION - DIRECTIONS
- * - 2D ARRAY SIZE IS HARDCODED BECAUSE WE LOAD ALL THE EDGES OURSELVES - WILL KNOW THE SIZE OF THE GRAPH WE ARE ADDING
+ * - 2D IS HARDCODED IN DEFAULT, IS REPLACED WHEN LOADED FROM TGF
  */ 
 
 public class AdjListsGraph<T>{
@@ -22,7 +20,7 @@ public class AdjListsGraph<T>{
   public AdjListsGraph(){
     
     verticies = new Vector<Room>();
-    arcs = new ArcInformation(30,30);
+    arcs = new ArcInformation(20,20);
     
   }
   
@@ -151,6 +149,7 @@ public class AdjListsGraph<T>{
    */ 
   public void removeEdge (Room vertex1, Room vertex2){
     arcs.removeArc(getIndex(vertex1), getIndex(vertex2));
+    arcs.removeArc(getIndex(vertex2), getIndex(vertex1));
   }
   
   /* Check for successors to given vertex by returning corresponding LinkedList of arcs that begin at given
@@ -265,6 +264,7 @@ public class AdjListsGraph<T>{
    */ 
   public String toString(){
     String result = verticies.toString() + "\n" + arcs.toString();
+    result += "\nSize: " + arcs.numRows();
     return result;
   }
   /* Access a particular vertex based on its index number
@@ -283,6 +283,14 @@ public class AdjListsGraph<T>{
     
   }
   
+  /* Get arc between two rooms assuming it exsists
+   * @ params rooms at either end of arc
+   * @ return Arc between the two, null if it doesn't exist
+   */ 
+  public Arc getArc(Room from, Room to){
+    return arcs.get(getIndex(from),getIndex(to));
+  }
+  
   public static void main(String[] args){
     
     AdjListsGraph rooms = new AdjListsGraph();
@@ -298,24 +306,26 @@ public class AdjListsGraph<T>{
     System.out.println("Rooms.tgf was just saved to show initial state");
     
     MapsBuilder roomx = new MapsBuilder();
-    AdjListsGraph roomxGraph = roomx.build("Room.tgf");
+    AdjListsGraph roomxGraph = roomx.build("allrooms.tgf");
     System.out.println("Building new AdjListsGraph object from .tgf file; result should match"
                          + " final state above");
+    System.out.println("arc: " + roomxGraph.getArc(roomxGraph.getRoom("S127"),roomxGraph.getRoom("E135")));
+    System.out.println("isArc: " + roomxGraph.isEdge(roomxGraph.getRoom("S127"),roomxGraph.getRoom("E135")));
     //System.out.println("Maps: " + roomxGraph);
     
     //roomxGraph.arrayToString();
     
     //System.out.println("isUndirected: " + roomxGraph.isUndirected());
     //System.out.println("num arcs: " + roomxGraph.getNumArcs());
-    System.out.println("isEdge: " + roomxGraph.isEdge(roomxGraph.getRoom("160A"), roomxGraph.getRoom("160B")));
-    roomxGraph.addArc(roomxGraph.getRoom("01"), roomxGraph.getRoom("210"), "leave elevator", 45);
+    //System.out.println("isEdge: " + roomxGraph.isEdge(roomxGraph.getRoom("160A"), roomxGraph.getRoom("160B")));
+    //roomxGraph.addArc(roomxGraph.getRoom("01"), roomxGraph.getRoom("210"), "leave elevator", 45);
     //System.out.println("isArc: " + roomxGraph.isArc(roomxGraph.getRoom("01"), roomxGraph.getRoom("210")));
     //System.out.println("getKids: " + roomxGraph.getChildRooms(roomxGraph.getRoom("170")));
 //    System.out.println("getParents: " + roomxGraph.getParentRooms(roomxGraph.getRoom("170")));
 //    System.out.println("getSuccessors: " + roomxGraph.getSuccessors(roomxGraph.getRoom("170")));
 //    System.out.println("getPredecessors: " + roomxGraph.getPredecessors(roomxGraph.getRoom("170")));
-    roomxGraph.removeVertex(roomxGraph.getRoom("190"));
-    System.out.println("after removing 01: " + roomxGraph);
+    //roomxGraph.removeVertex(roomxGraph.getRoom("190"));
+    //System.out.println("after removing 01: " + roomxGraph);
 
 
   }
