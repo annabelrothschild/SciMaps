@@ -1,0 +1,151 @@
+/* HomePage.java
+ * Written by: Ana Fernandez
+ * Part of SciMaps GUI
+ */
+
+import java.awt.*; 
+import java.awt.event.*;
+import javax.swing.*;
+import javax.swing.event.*;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
+import javax.swing.JPanel;
+
+public class HomePage extends JPanel  { 
+  private String inputStart, inputDestination;
+  private JTextField text1, text2;
+  private JLabel labelSouth;
+  private JPanel panelNorth, panelCenter, panelSouth;
+  
+  
+  //----------------------------------------------------
+  // CONSTRUCTOR
+  //----------------------------------------------------
+  
+  public HomePage() {  
+
+    setLayout (new BorderLayout());  
+    setBackground (Color.white);   
+    
+    panelNorth = new HomePageNorthPanel();
+    panelCenter = new HomePageCenterPanel();
+    panelSouth = new HomePageSouthPanel();
+    
+    
+    panelNorth.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED, Color.black, Color.black));
+    panelSouth.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED, Color.black, Color.black));
+    
+    add(panelNorth, BorderLayout.NORTH);
+    add(panelCenter, BorderLayout.CENTER);
+    add(panelSouth, BorderLayout.SOUTH);
+    
+    /*
+   //Panel that shows up to show directions
+    JPanel DirPanel = new DirectionsPanel();
+    
+    panelNorth.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED, Color.black, Color.black));
+    panelSouth.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED, Color.black, Color.black));
+    */
+  } 
+  
+  //----------------------------------------------------
+  // HOMEPAGE PANELS (NORTH, CENTER, & SOUTH)
+  //----------------------------------------------------
+  
+  public class HomePageCenterPanel extends JPanel {
+    private JLabel label, startLabel, destinationLabel;
+    private JComboBox startOptions, destinationOptions;
+    
+    public HomePageCenterPanel () {
+      setBackground (Color.white); 
+      
+      //1) Text Field for user to input their start location
+      startLabel = new JLabel("Start: ");
+      add(startLabel);
+      text1 = new JTextField (5);        
+      text1.addActionListener (new TempListener());   
+      add (text1); 
+      
+      
+      //2) Text Field for user to input their destination location
+      destinationLabel = new JLabel("Destination: ");
+      add(destinationLabel);
+      text2 = new JTextField (5);        
+      text2.addActionListener (new TempListener());   
+      add (text2);  
+      
+      //decided against a combobox becuase it would be too many rooms to scroll through, 80ish rooms
+    }
+  }
+  //panel that greets users
+  public class HomePageNorthPanel extends JPanel {
+    private JLabel labelNorth; 
+    public HomePageNorthPanel () {
+      labelNorth = new JLabel ("Welcome to SciMaps! Please enter a starting point and destination to begin navigation!");   
+      add (labelNorth);    
+      setBackground (Color.cyan); 
+    }
+  }
+  
+  public class HomePageSouthPanel extends JPanel {
+    private JButton addGetDirectionsButton;
+    
+    public HomePageSouthPanel () {
+      setBackground (Color.white);  
+      labelSouth = new JLabel ();      
+      add (labelSouth);
+    
+    //3) Get Directions button that initiates navigation
+      addGetDirectionsButton = new JButton ("Get Directions!");
+      add(addGetDirectionsButton);
+      
+      addGetDirectionsButton.addActionListener(new ButtonListener());  
+    }
+    
+  }
+  
+  /*
+  public class DirectionsPanel extends JPanel {
+    private JLabel labelNorth; 
+    public HomePageNorthPanel () {
+      labelNorth = new JLabel ("Welcome to SciMaps! Please enter a starting point and destination to begin navigation!");   
+      add (labelNorth);    
+      setBackground (Color.cyan); 
+    }
+  } 
+  */
+  
+  
+  private class TempListener implements ActionListener {
+    public void actionPerformed (ActionEvent event) {  
+      
+    }
+  }
+  
+  
+  private class ButtonListener implements ActionListener {
+    public void actionPerformed(ActionEvent event) {
+     
+      //Listener for start text field
+      inputStart = text1.getText();
+      
+      //Listener for destination text field
+      inputDestination = text2.getText();
+      
+     
+      if(inputStart != null && inputDestination != null){
+        //System.out.println("You are trying to get from " + inputStart + " to " + inputDestination +".");
+        labelSouth.setText("You are trying to get from " + inputStart + " to " + inputDestination +".");
+        //labelSouth.setText(directions.toString());
+         //this.setUI(new DirPage());
+      }
+      
+      if(inputStart.length() == 0 || inputDestination.length() == 0 || inputStart.equals(inputDestination)){
+        labelSouth.setText("You need to enter an appropriate starting and destination location!");
+      }
+      
+      
+      
+      }
+    }
+  }

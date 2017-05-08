@@ -291,6 +291,12 @@ public class AdjListsGraph<T>{
     return arcs.get(getIndex(from),getIndex(to));
   }
   
+  /* @ return arcs 
+   */ 
+  public ArcInformation getArcs(){
+    return arcs;
+  }
+  
   public static void main(String[] args){
     
     AdjListsGraph rooms = new AdjListsGraph();
