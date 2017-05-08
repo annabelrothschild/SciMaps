@@ -76,47 +76,53 @@ public class Dijkstra {
   /** Main method for testing. */
   public static void main(String[] args)
   {
-    AdjListsGraph<Room> roomGraph = new AdjListsGraph<Room>();
-    Room r1 = new Room("160A");
-    Room r2 = new Room("160B");
-    Room r3 = new Room("170");
-    Room r4 = new Room("210");
-    Room r5 = new Room("180");
-    Room r6 = new Room("190");
-    Room r7 = new Room("01");
-    Room r8 = new Room("220");
-    Room r9 = new Room("240");
-    roomGraph.addVertex(r1);
-    roomGraph.addVertex(r2);
-    roomGraph.addVertex(r3);
-    roomGraph.addVertex(r4);
-    roomGraph.addVertex(r5);
-    roomGraph.addVertex(r6);
-    roomGraph.addVertex(r7);
-    roomGraph.addVertex(r8);
-    roomGraph.addVertex(r9);
+    //AdjListsGraph<Room> roomGraph = new AdjListsGraph<Room>();
     
-    roomGraph.addArc(r1, r2, "straight", 1);
-    roomGraph.addArc(r2, r1, "straight", 1);
-    roomGraph.addArc(r2, r3, "straight", 2);
-    roomGraph.addArc(r3, r2, "straight", 2);
-    roomGraph.addArc(r3, r7, "straight", 6);
-    roomGraph.addArc(r7, r3, "straight", 6);
-    roomGraph.addArc(r4, r7, "straight", 2);
-    roomGraph.addArc(r7, r4, "straight", 2);
-    roomGraph.addArc(r4, r9, "straight", 1);
-    roomGraph.addArc(r9, r4, "straight", 1);
-    roomGraph.addArc(r4, r8, "straight", 4);
-    roomGraph.addArc(r8, r4, "straight", 4);
-    roomGraph.addArc(r8, r9, "straight", 1);
-    roomGraph.addArc(r9, r8, "straight", 1);
-    roomGraph.addArc(r6, r3, "straight", 3);
-    roomGraph.addArc(r3, r6, "straight", 3);
-    roomGraph.addArc(r5, r6, "straight", 4);
-    roomGraph.addArc(r6, r5, "straight", 4);
+    //create some Rooms
+    //Room r1 = new Room("160A");
+    //Room r2 = new Room("160B");
+    //Room r3 = new Room("170");
+    //Room r4 = new Room("210");
+    //Room r5 = new Room("180");
+    //Room r6 = new Room("190");
+    //Room r7 = new Room("01");
+    //Room r8 = new Room("220");
+    //Room r9 = new Room("240");
    
-    List<Room> path = Dijkstra.computePaths(roomGraph, r1, r4);
-    System.out.println("Path: " + path);
+    //add Rooms to graph
+    //roomGraph.addVertex(r1);
+    //roomGraph.addVertex(r2);
+    //roomGraph.addVertex(r3);
+    //roomGraph.addVertex(r4);
+    //roomGraph.addVertex(r5);
+    //roomGraph.addVertex(r6);
+    //roomGraph.addVertex(r7);
+    //roomGraph.addVertex(r8);
+    //roomGraph.addVertex(r9);
+    
+    //add Arcs to Graph
+    //roomGraph.addArc(r1, r2, "straight", 1);
+    //roomGraph.addArc(r2, r1, "straight", 1);
+    //roomGraph.addArc(r2, r3, "straight", 2);
+    //roomGraph.addArc(r3, r2, "straight", 2);
+    //roomGraph.addArc(r3, r7, "straight", 6);
+    //roomGraph.addArc(r7, r3, "straight", 6);
+    //roomGraph.addArc(r4, r7, "straight", 2);
+    //roomGraph.addArc(r7, r4, "straight", 2);
+    //roomGraph.addArc(r4, r9, "straight", 1);
+    //roomGraph.addArc(r9, r4, "straight", 1);
+    //roomGraph.addArc(r4, r8, "straight", 4);
+    //roomGraph.addArc(r8, r4, "straight", 4);
+    //roomGraph.addArc(r8, r9, "straight", 1);
+    //roomGraph.addArc(r9, r8, "straight", 1);
+    //roomGraph.addArc(r6, r3, "straight", 3);
+    //roomGraph.addArc(r3, r6, "straight", 3);
+    //roomGraph.addArc(r5, r6, "straight", 4);
+    //roomGraph.addArc(r6, r5, "straight", 4);
+   
+    //run Dijkstra!
+    //List<Room> path = Dijkstra.computePaths(roomGraph, r1, r4);
+    //System.out.println("Path: " + path);
 
 
   }
