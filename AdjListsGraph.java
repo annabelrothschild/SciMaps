@@ -20,7 +20,10 @@ public class AdjListsGraph<T>{
   public AdjListsGraph(){
     
     verticies = new Vector<Room>();
-    arcs = new ArcInformation(30,30); //Changed by Meha to account for big test size
+    arcs = new ArcInformation(50,50); //Changed by Meha 5/7 to account for big test graph size
+                                      //Note: This only matters for our manually-created graphs. 
+                                      //Our program exclusively uses the MapsBuilder, which automatically
+                                      //sets the correct size. 
     
   }
   
