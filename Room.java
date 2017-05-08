@@ -7,6 +7,7 @@
 public class Room implements Comparable<Room> {
   
   String name;
+  // Added by Meha 5/7 for use in Dijkstra.java
   public double minDistance = Double.POSITIVE_INFINITY; //initial minimum distance to this Room is infinity (use in Dijkstra)
   public Room previous; //in shortest path, another Room that immediately preceeds current Room (use in Dijkstra)
   
