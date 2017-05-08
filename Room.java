@@ -7,8 +7,8 @@
 public class Room implements Comparable<Room> {
   
   String name;
-  public double minDistance = Double.POSITIVE_INFINITY; 
-  public Room previous; 
+  public double minDistance = Double.POSITIVE_INFINITY; //initial minimum distance to this Room is infinity (use in Dijkstra)
+  public Room previous; //in shortest path, another Room that immediately preceeds current Room (use in Dijkstra)
   
   /* Constructor just takes in the name of the room
    */ 
