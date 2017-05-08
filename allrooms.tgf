@@ -2,13 +2,13 @@
 2 E101
 3 102
 4 E1
-5  E102
+5 E102
 6 E104
 7 E106
 8 E108
 9 E110
 10 E112
-11 E 114
+11 E114
 12 E116
 13 E118
 14 E120
@@ -116,9 +116,9 @@
 17 18 3 continue
 18 17 3 continue
 18 20 3 across hallway
-20 18 3 across hallway
+20 18 3 turn right towards microfocus
 20 21 3 continue
-21 20 3 continue
+21 20 3 turn right
 21 22 3 continue
 22 21 3 continue
 25 10 5 across hallway
@@ -147,7 +147,7 @@
 43 42 3 continue
 43 44 3 continue
 44 43 3 continue
-44 45 3 continue
+44 45 3 turn left
 45 44 3 continue
 42 48 3 across hallway
 48 42 3 across hallway
@@ -192,7 +192,7 @@
 74 75 7 across Leaker Beaker, down steps, to your right
 75 74 7 to your left, up steps
 75 73 10 to your left, up steps, across Leaky Beaker
-45 46 5 continue
+45 46 5 continue 
 46 45 5 continue
 47 48 5 continue
 48 47 5 continue
@@ -264,4 +264,5 @@
 34 19 5 across hallway
 19 31 5 across hallway
 31 19 5 across hallway
+9 2 4 continue
 
