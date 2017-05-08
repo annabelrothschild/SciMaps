@@ -22,7 +22,8 @@ public class Arc{
     
   }
   
-  /* @ return minutes between endpoints
+  /* Getter for travel time for this Arc
+   * @ return seconds between endpoints
    */ 
   public int getSeconds(){
     
@@ -30,7 +31,8 @@ public class Arc{
     
   }
   
-  /* @ return direction between endpoints
+  /* Getter for directions for this arc
+   * @ return direction between endpoints
    */ 
   public String getDirections(){
     
@@ -38,7 +40,8 @@ public class Arc{
     
   }
   
-  /* Reset the minutes required in travel time
+  /* Reset the seconds required in travel time
+   * @param new travel time
    */ 
   public void setSeconds(int freshSeconds){
     
@@ -47,6 +50,7 @@ public class Arc{
   }
   
   /* Reset the directions of an arc
+   * @param new directions
    */ 
   public void setDirections(String freshDirections){
     
@@ -54,7 +58,8 @@ public class Arc{
     
   }
   
-  /* @ return String representation of arc
+  /* Create nicely-formatted representation of arc
+   * @ return String representation of arc
    */ 
   public String toString(){
     
@@ -63,7 +68,8 @@ public class Arc{
     
   }
   
-  /* @ return starting point of arc
+  /* Getter for starting vertex
+   * @ return starting point of arc
    */ 
   public int getStartVertex(){
     
@@ -71,7 +77,8 @@ public class Arc{
     
   }
   
-  /* @ return endpoint of arc
+  /* Getter for ending vertex
+   * @ return endpoint of arc
    */ 
   public int getEndVertex(){
     
