@@ -60,7 +60,8 @@ public class ArcInformation{
     }
   }
   
-  /* @ return number of rows
+  /* Geter for number of rows in ArcInformation object
+   * @ return number of rows
    */ 
   public int numRows(){
     
@@ -68,7 +69,8 @@ public class ArcInformation{
     
   }
   
-  /* @ return number of columns at given index
+  /* Getter for number of columns at a given index
+   * @ return number of columns at given index
    */ 
   public int numColumns(int index){
     
@@ -81,10 +83,10 @@ public class ArcInformation{
   }
   
   /* Create String representation of array
+   * Utilize nested for loop to traverse all arcs
    * @ return String representation of array
    */ 
   public String toString(){
-    //assumes weights and arcsResults will always have same size and will both be null in same places
     String arcResults = "";
     for (int i=0; i<arcInfo.length; i++){
       if (!(arcInfo[i]==null)){
@@ -99,7 +101,9 @@ public class ArcInformation{
     return arcResults;
   }
   
-  /* @ return Arc for reference
+  /* Getter for a particular art given starting and ending indicies
+   * @ param starting and ending vertices
+   * @ return Arc for reference
    */ 
   public Arc get(int start, int end){
     
@@ -114,7 +118,7 @@ public class ArcInformation{
     
   }
   
-  /* Re-assign an arc to null
+  /* Remove an arc by re-assigning arc's space in array to null 
    * @ param arc-to-be-removed's indicies
    */
   public void removeArc(int start, int end){
@@ -140,26 +144,15 @@ public class ArcInformation{
     
   }
   
-    /* Added by Annabel 04/26 - account for need to resize arcDirections array
+  /* Double array's size - never used in implementation of program, only for testing
    */ 
   private void doubleArray(){
-    
-    //will need to increase size of weights array and directions array at same time because will always have
-    // same number of entries
-    
-    //makes each column far larger than it needs to be - is there a better solution to this?
     Arc[][] biggerInfo = new Arc[rows*2][3 + columns*2];
     rows = rows * 2;
     columns = columns * 2;
     for (int i=0; i<arcInfo.length; i++) {
-      //System.out.println("i value: " + i);
       for (int j=0; j<arcInfo[i].length; j++){
-        //System.out.println("j value: " + j);
-        //System.out.println(" (i,j) --> " + i + ", " + j);
-        //System.out.println("arcDirections @ value pair: " + arcDirections[i][j]); 
-        //System.out.println("biggerDirections @ value pair: " + biggerDirections[i][j]);
         biggerInfo[i][j] = arcInfo[i][j];
-        //System.out.println("biggerDirections: " + biggerDirections[i][j] + "  arcDirections: " + arcDirections[i][j]);
       }
     }
     arcInfo = biggerInfo;
@@ -167,11 +160,11 @@ public class ArcInformation{
   
   public static void main(String[] args){
     
-    Room room1 = new Room("1");
-    Room room2 = new Room("2");
-    Room room3 = new Room("3");
-    
-    ArcInformation myArcs = new ArcInformation(20,20);
+//    Room room1 = new Room("1");
+//    Room room2 = new Room("2");
+//    Room room3 = new Room("3");
+//    
+//    ArcInformation myArcs = new ArcInformation(20,20);
     //myArcs.addInformation(room
     
 //    ArcInformation myInfo = new ArcInformation(5,5);
