@@ -13,11 +13,17 @@ import javax.swing.JPanel;
 import java.util.List;
 
 public class HomePage extends JPanel  { 
+  //instance vars 
   private String inputStart, inputDestination;
   private JTextField text1, text2;
   private JLabel labelCenter, labelSouth, label;
   private JPanel panelNorth, panelCenter, panelSouth;
   private JButton addGetDirectionsButton;
+  
+  //instance variables as well, GUI makes use of:
+  //MapsBuilder to creates graph from tgf, graph will represent our first floor plan
+  //AdjListsGraph creates a graph of rooms with adjacency lists to store the arcs
+  //Room represents each vertex in our graph
   private static MapsBuilder graph;
   private static AdjListsGraph<Room> roomGraph;
   private Room startRoom;
@@ -29,8 +35,11 @@ public class HomePage extends JPanel  {
   // CONSTRUCTOR
   //----------------------------------------------------
   
+  /*
+   * @param takes in AdjListsGraph<Room>
+  */
   public HomePage(AdjListsGraph<Room> rg) { 
-    
+    //instantiates instance
     roomGraph = rg;
 
     setLayout (new BorderLayout());  
@@ -47,21 +56,15 @@ public class HomePage extends JPanel  {
     add(panelNorth, BorderLayout.NORTH);
     add(panelCenter, BorderLayout.CENTER);
     add(panelSouth, BorderLayout.SOUTH);
-    
-    /*
-     //Panel that shows up to show directions
-     JPanel DirPanel = new DirectionsPanel();
-     
-     panelNorth.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED, Color.black, Color.black));
-     panelSouth.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED, Color.black, Color.black));
-     */
   } 
   
   //----------------------------------------------------
   // HOMEPAGE PANELS (NORTH, CENTER, & SOUTH)
   //----------------------------------------------------
   
+  //panel that has textfields that prompts users for start/destination
   public class HomePageCenterPanel extends JPanel {
+    //instance vars
     private JLabel startLabel, destinationLabel;
     private JComboBox startOptions, destinationOptions;
     
@@ -94,9 +97,12 @@ public class HomePage extends JPanel  {
   }
   //panel that greets users
   public class HomePageNorthPanel extends JPanel {
+    //instance vars
     private JLabel labelNorth; 
     public HomePageNorthPanel () {
-      labelNorth = new JLabel ("Welcome to SciMaps! Please enter a starting point and destination to begin navigation!");   
+      //welcome message
+      labelNorth = new JLabel ("Welcome to SciMaps! Please enter a " + 
+                               "starting point and destination to begin navigation!");   
       add (labelNorth);    
       setBackground (Color.green); 
     }
@@ -106,7 +112,7 @@ public class HomePage extends JPanel  {
     
     public HomePageSouthPanel () {
       setBackground (Color.white);  
-      labelSouth = new JLabel ();      
+      labelSouth = new JLabel ();   //adds a blank label   
       add (labelSouth);
       
       //3) Get Directions button that initiates navigation
@@ -118,67 +124,60 @@ public class HomePage extends JPanel  {
     
   }
   
-  /*
-   public class DirectionsPanel extends JPanel {
-   private JLabel labelNorth; 
-   public HomePageNorthPanel () {
-   labelNorth = new JLabel ("Welcome to SciMaps! Please enter a starting point and destination to begin navigation!");   
-   add (labelNorth);    
-   setBackground (Color.cyan); 
-   }
-   } 
-   */
   private class TempListener implements ActionListener {
     public void actionPerformed(ActionEvent event) {
+      //listens to textfields
     }
   }
   
   private class ButtonListener implements ActionListener {
+    //instance vars
     private Dijkstra dijkstra;
     private CalculateDirections calcDirs;
+    
     public void actionPerformed(ActionEvent event) {
+      //when 'Get Directions' button is clicked
       if(event.getSource() == addGetDirectionsButton) {
-        //Listener for start text field
-        inputStart = text1.getText();
         
+        //gets text from start textfield that will be used for calcDirs
+        inputStart = text1.getText();
+        //gets text from desination textfield that will be used for calcDirs
+        inputDestination = text2.getText();
+        
+        //if user enters a room that does not exist
         if (roomGraph.getRoom(inputStart) == null){
           labelCenter.setText("Your start location is not in our system. Please try another room.");
         }
         
-        //Listener for destination text field
-        inputDestination = text2.getText();
+        
+        //if user enters a room that does not exist
         if (roomGraph.getRoom(inputDestination) == null){
           labelCenter.setText("Your destination is not in our system. Please try another room.");
         }
         
         
-        //displays an error message if user's
+        //displays a message if user's
         //start and destination locations are the same
         else if(inputStart.equals(inputDestination)){
           labelCenter.setText("Your start and destination are the same.");
         }
+        
+        //if user does everything correctly, navigation will begin
         else {
-         startRoom = roomGraph.getRoom(inputStart);
-         endRoom = roomGraph.getRoom(inputDestination);
-         dijkstra = new Dijkstra();
-         List<Room> path = dijkstra.computePaths(roomGraph, startRoom, endRoom);
-         calcDirs = new CalculateDirections();
-         
-//         String star = "\n**********************************************************";
-//         star = "<html>" + star.replaceAll("\n","<br>");
-//         label.setText(star);
-         
-         String directions = calcDirs.getTextDirections(roomGraph, roomGraph.getArcs(), path);
-         directions = "<html>" + directions.replaceAll("\n","<br>");
-         labelCenter.setText(directions);
+         startRoom = roomGraph.getRoom(inputStart); //startRoom is set as the user's start input
+         endRoom = roomGraph.getRoom(inputDestination); //endRoom is set as user's desination input
+          
+         dijkstra = new Dijkstra(); //creates a new instance of Dijkstra
+         List<Room> path = dijkstra.computePaths(roomGraph, startRoom, endRoom); //computes fastest path to desination
+          
+         calcDirs = new CalculateDirections(); //creates new instance of CalculateDirections
+          
+         ///gets the text directions that will displayed in center panel
+         String directions = calcDirs.getTextDirections(roomGraph, roomGraph.getArcs(), path); 
+         directions = "<html>" + directions.replaceAll("\n","<br>"); //fixes formatting
+         labelCenter.setText(directions); //displays directions in center panel
         }
-      }
-      
-      
-      
-      
-      
-      
+      } 
     }
   }
 }
