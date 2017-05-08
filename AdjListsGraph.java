@@ -20,7 +20,7 @@ public class AdjListsGraph<T>{
   public AdjListsGraph(){
     
     verticies = new Vector<Room>();
-    arcs = new ArcInformation(20,20);
+    arcs = new ArcInformation(30,30); //Changed by Meha to account for big test size
     
   }
   

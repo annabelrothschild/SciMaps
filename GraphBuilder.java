@@ -47,9 +47,8 @@ abstract class GraphBuilder<T> {
         Integer to = scan.nextInt();
         int weight = scan.nextInt(); 
         String direction = scan.nextLine().trim();
-        System.out.println("directions: " + direction);
         //add an arc between the actual vertex objects that those indexes
-        graph.addArc(graph.getVertex(from), graph.getVertex(to), direction, weight);
+        graph.addArc(graph.getVertex(from-1), graph.getVertex(to-1), direction, weight);
       }
       scan.close();
     } catch (IOException ex){
