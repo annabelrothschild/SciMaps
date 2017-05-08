@@ -332,9 +332,9 @@ public class AdjListsGraph<T>{
     //roomxGraph.addArc(roomxGraph.getRoom("01"), roomxGraph.getRoom("210"), "leave elevator", 45);
     //System.out.println("isArc: " + roomxGraph.isArc(roomxGraph.getRoom("01"), roomxGraph.getRoom("210")));
     //System.out.println("getKids: " + roomxGraph.getChildRooms(roomxGraph.getRoom("170")));
-//    System.out.println("getParents: " + roomxGraph.getParentRooms(roomxGraph.getRoom("170")));
-//    System.out.println("getSuccessors: " + roomxGraph.getSuccessors(roomxGraph.getRoom("170")));
-//    System.out.println("getPredecessors: " + roomxGraph.getPredecessors(roomxGraph.getRoom("170")));
+    //System.out.println("getParents: " + roomxGraph.getParentRooms(roomxGraph.getRoom("170")));
+    //System.out.println("getSuccessors: " + roomxGraph.getSuccessors(roomxGraph.getRoom("170")));
+    //System.out.println("getPredecessors: " + roomxGraph.getPredecessors(roomxGraph.getRoom("170")));
     //roomxGraph.removeVertex(roomxGraph.getRoom("190"));
     //System.out.println("after removing 01: " + roomxGraph);
 
