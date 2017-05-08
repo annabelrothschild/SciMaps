@@ -76,8 +76,6 @@ public class Dijkstra {
   /** Main method for testing. */
   public static void main(String[] args)
   {
-//    MapsBuilder roomx = new MapsBuilder();
-//    AdjListsGraph<Room> roomxGraph = roomx.build("Room.tgf");
     AdjListsGraph<Room> roomGraph = new AdjListsGraph<Room>();
     Room r1 = new Room("160A");
     Room r2 = new Room("160B");
@@ -116,11 +114,10 @@ public class Dijkstra {
     roomGraph.addArc(r3, r6, "straight", 3);
     roomGraph.addArc(r5, r6, "straight", 4);
     roomGraph.addArc(r6, r5, "straight", 4);
-    
    
-    List<Room> path = Dijkstra.computePaths(roomGraph, r1, r6);
+    List<Room> path = Dijkstra.computePaths(roomGraph, r1, r4);
     System.out.println("Path: " + path);
-    
+
 
   }
 }
