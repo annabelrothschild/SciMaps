@@ -43,8 +43,8 @@ public class Room implements Comparable<Room> {
   
   public static void main(String[] args){
     
-    Room myRoom = new Room("160A");
-    System.out.println(myRoom);
+    //Room myRoom = new Room("160A");
+    //System.out.println(myRoom);
   }
  
   
