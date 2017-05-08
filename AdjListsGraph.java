@@ -277,7 +277,8 @@ public class AdjListsGraph<T>{
     return (Room) verticies.get(index);
   }
   
-  /* Added by Annabel 04/26 - account for need to change direction or seconds in arcInformation
+  /* Allows for changes to arc information - never used in run of the program, only in event of backend changes
+   * @param new travel time and/or directions for Arc
    */ 
   public void changeArcInformation(Room from, Room to, String directions, int seconds){
     
@@ -294,7 +295,8 @@ public class AdjListsGraph<T>{
     return arcs.get(getIndex(from),getIndex(to));
   }
   
-  /* @ return arcs 
+  /* Getter for ArcInformation object (arcs) - used only for testing purposes
+   * @ return arcs 
    */ 
   public ArcInformation getArcs(){
     return arcs;
@@ -302,7 +304,7 @@ public class AdjListsGraph<T>{
   
   public static void main(String[] args){
     
-    AdjListsGraph rooms = new AdjListsGraph();
+    //AdjListsGraph rooms = new AdjListsGraph();
     
     //Room hello = new Room("160b");
     //Room there = new Room("170b");
@@ -312,14 +314,14 @@ public class AdjListsGraph<T>{
     //rooms.addArc(hello, there);
     
     //rooms.saveToTGF("testSaveToTGF");
-    System.out.println("Rooms.tgf was just saved to show initial state");
+    //System.out.println("Rooms.tgf was just saved to show initial state");
     
-    MapsBuilder roomx = new MapsBuilder();
-    AdjListsGraph roomxGraph = roomx.build("allrooms.tgf");
-    System.out.println("Building new AdjListsGraph object from .tgf file; result should match"
+    //MapsBuilder roomx = new MapsBuilder();
+    //AdjListsGraph roomxGraph = roomx.build("allrooms.tgf");
+    //System.out.println("Building new AdjListsGraph object from .tgf file; result should match"
                          + " final state above");
-    System.out.println("arc: " + roomxGraph.getArc(roomxGraph.getRoom("S127"),roomxGraph.getRoom("E135")));
-    System.out.println("isArc: " + roomxGraph.isEdge(roomxGraph.getRoom("S127"),roomxGraph.getRoom("E135")));
+    //System.out.println("arc: " + roomxGraph.getArc(roomxGraph.getRoom("S127"),roomxGraph.getRoom("E135")));
+    //System.out.println("isArc: " + roomxGraph.isEdge(roomxGraph.getRoom("S127"),roomxGraph.getRoom("E135")));
     //System.out.println("Maps: " + roomxGraph);
     
     //roomxGraph.arrayToString();
