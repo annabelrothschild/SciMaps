@@ -1,13 +1,12 @@
 /* Room.java - defines one Room object 
  * Part of SciMaps
  * Written by: Annabel Rothschild
- * Modified by:
+ * Modified by: Meha Ahluwalia for compatibiliy with Dijkstra.java
  */
 
 public class Room implements Comparable<Room> {
   
   String name;
-  // Added by Meha 5/7 for use in Dijkstra.java
   public double minDistance = Double.POSITIVE_INFINITY; //initial minimum distance to this Room is infinity (use in Dijkstra)
   public Room previous; //in shortest path, another Room that immediately preceeds current Room (use in Dijkstra)
   
@@ -39,7 +38,6 @@ public class Room implements Comparable<Room> {
   }
   
   /* Compares two Room objects by their minDistances
-   * Added by Meha 5/7 to compare paths for use in Dijkstra.java
    * @ return an integer: 1 if greater than, 0 if equal, -1 if less than
    */ 
   public int compareTo(Room other)
