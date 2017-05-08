@@ -42,9 +42,9 @@ public class Dijkstra {
       //remove head of Queue 
       Room headRoom = roomsQueue.poll(); //design: use poll() to avoid ex
       //get of successors
-      LinkedList<Arc> adjacencies = rooms.getSuccessors(headRoom);
+      LinkedList<Arc> successors = rooms.getSuccessors(headRoom);
       // visit each sucessor
-      for (Arc arc: adjacencies) //all of the Room's successors
+      for (Arc arc: successors) //all of the Room's successors
       {
         int newRoomIndex = arc.getEndVertex(); //arc destination Room's index    
         Room newRoom = rooms.getVertex(newRoomIndex); //get Room from index
