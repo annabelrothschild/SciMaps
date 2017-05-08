@@ -39,7 +39,7 @@ public class CalculateDirections {
       Arc arc = info.get(arcStartIndex, arcEndIndex); 
       String newDirection = arc.getDirections(); //corresponding text directions from arc
       
-      //if last  direction was "continue," don't print new direction if also "continue" 
+      //ie if last  direction was "continue," don't print new direction if also "continue" 
       if ((lastDirection.equals(newDirection))) {
         continue; 
       }
