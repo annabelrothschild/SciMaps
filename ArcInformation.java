@@ -50,13 +50,13 @@ public class ArcInformation{
    * @ params index of beginning arc, index of end arc, integer seconds
    */ 
   //required Arc indicies - use getIndex on Arcs before trying to use resetMinutes
-  public void resetMinutes(int from, int to, int m){
+  public void resetSeconds(int from, int to, int s){
     
     if ((rows < from) || (columns < to)){
       System.out.println("This index does not exist in the array. Please double check your indicies.");
     }
     else{
-      arcInfo[from][to].setSeconds(m);
+      arcInfo[from][to].setSeconds(s);
     }
   }
   
